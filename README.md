@@ -16,6 +16,8 @@
 
 ## 🌐 Usage
 
+https://github.com/user-attachments/assets/619cd6a1-e064-4518-a84c-8134c09fae03
+
 > [!IMPORTANT]
 > Security and customer trust are fundamental to everything we do at Qonto. While this repository enables powerful innovation and integration capabilities, it's important to understand that certain risks are inherent to the use of the MCP technology itself. Please review the following security information carefully.
 
@@ -39,7 +41,7 @@ Questions or security concerns? Contact us at `security@qonto.com`.
 1. Install [Claude Desktop](https://claude.ai/download)
 2. Get your organization ID and API key from your Qonto account's `/settings/integrations` section:
 
-![image](https://github.com/user-attachments/assets/f3ce9e9d-fd2b-4a23-b420-8ed22b44e1aa)
+![image](https://github.com/user-attachments/assets/2ae48bff-d393-4aaf-92e9-3170a4f324c0)
 
 ### Option 1: Docker Installation (Recommended)
 
