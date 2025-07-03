@@ -1,0 +1,1 @@
+from .memberships import list_qonto_memberships

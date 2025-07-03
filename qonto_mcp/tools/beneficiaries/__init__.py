@@ -1,0 +1,1 @@
+from .beneficiaries import get_qonto_beneficiary, list_qonto_beneficiaries
