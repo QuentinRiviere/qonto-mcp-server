@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  qonto-mcp-server:
+    build: .
+    container_name: qonto-mcp-server
+    environment:
+      # Required Qonto API configuration
+      - QONTO_API_KEY=${QONTO_API_KEY}
+      - QONTO_ORGANIZATION_ID=${QONTO_ORGANIZATION_ID}
+      - QONTO_THIRDPARTY_HOST=${QONTO_THIRDPARTY_HOST:-https://thirdparty.qonto.com}
+      
+      # MCP Server configuration - HTTP transport only
+      - TRANSPORT=streamable-http
+    
+    ports:
+      - "8000:8000"
+    
+    # Restart policy
+    restart: unless-stopped

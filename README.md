@@ -45,11 +45,54 @@ Questions or security concerns? Contact us at `security@qonto.com`.
 
 ### Option 1: Docker Installation (Recommended)
 
-1. Pull the Docker image:
+#### Using Docker Compose (Easiest)
+
+1. Clone this repository and navigate to the project directory
+2. Copy the environment template:
    ```bash
-   docker pull qonto/qonto-mcp-server:latest
+   cp env.example .env
    ```
-2. In your Claude Desktop `claude_desktop_config.json` file, add the `Qonto MCP` server as follows:
+3. Edit `.env` file with your Qonto credentials:
+   ```bash
+   QONTO_API_KEY=your_api_key_here
+   QONTO_ORGANIZATION_ID=your_organization_id_here
+   QONTO_THIRDPARTY_HOST=https://thirdparty.qonto.com
+   ```
+4. Start the server:
+   ```bash
+   docker-compose up
+   ```
+   
+   The server will be available at `http://localhost:8000` with streamable-http transport.
+
+#### Using Docker directly
+
+1. Build the image:
+   ```bash
+   docker build -t qonto-mcp-server .
+   ```
+2. Run with stdio transport (default):
+   ```bash
+   docker run --rm -i \
+     -e QONTO_API_KEY=your_api_key_here \
+     -e QONTO_ORGANIZATION_ID=your_organization_id_here \
+     -e QONTO_THIRDPARTY_HOST=https://thirdparty.qonto.com \
+     qonto-mcp-server
+   ```
+3. Run with streamable-http transport:
+   ```bash
+   docker run --rm -i \
+     -e QONTO_API_KEY=your_api_key_here \
+     -e QONTO_ORGANIZATION_ID=your_organization_id_here \
+     -e QONTO_THIRDPARTY_HOST=https://thirdparty.qonto.com \
+     -e TRANSPORT=streamable-http \
+     -p 8000:8000 \
+     qonto-mcp-server
+   ```
+
+#### Claude Desktop Configuration
+
+For stdio transport, add to your `claude_desktop_config.json`:
 
 ```jsonc
 {
@@ -60,31 +103,33 @@ Questions or security concerns? Contact us at `security@qonto.com`.
         "run",
         "--rm",
         "-i",
-        "-e", "QONTO_API_KEY=<QONTO_API_KEY>",                 // <- change this with the API key from the settings page
-        "-e", "QONTO_ORGANIZATION_ID=<QONTO_ORGANIZATION_ID>", // <- change this with the organization id from the settings page
+        "-e", "QONTO_API_KEY=<QONTO_API_KEY>",
+        "-e", "QONTO_ORGANIZATION_ID=<QONTO_ORGANIZATION_ID>",
         "-e", "QONTO_THIRDPARTY_HOST=https://thirdparty.qonto.com",
-        "qonto/qonto-mcp-server:latest"
+        "qonto-mcp-server"
       ]
     }
   }
 }
 ```
 
-For example, this is a full Docker configuration:
+For streamable-http transport:
 
-```json
+```jsonc
 {
   "mcpServers": {
-    "Qonto MCP Docker": {
+    "Qonto MCP HTTP": {
       "command": "docker",
       "args": [
         "run",
         "--rm",
         "-i",
-        "-e", "QONTO_API_KEY=abcdefghihlmnopqrstuvxz123456",
-        "-e", "QONTO_ORGANIZATION_ID=qonto-organization-slug-1234",
+        "-e", "QONTO_API_KEY=<QONTO_API_KEY>",
+        "-e", "QONTO_ORGANIZATION_ID=<QONTO_ORGANIZATION_ID>",
         "-e", "QONTO_THIRDPARTY_HOST=https://thirdparty.qonto.com",
-        "qonto/qonto-mcp-server:latest"
+        "-e", "TRANSPORT=streamable-http",
+        "-p", "8000:8000",
+        "qonto-mcp-server"
       ]
     }
   }
@@ -179,7 +224,29 @@ This MCP server provides the following tools for interacting with your Qonto acc
 
 ### Transport Options
 
-The server supports both `stdio` and `streamable-http` transport protocols. Use `stdio` for most cases, or `streamable-http` if you need HTTP-based communication.
+The server supports multiple transport protocols:
+
+- **`stdio`** (default): Standard input/output communication, ideal for Claude Desktop integration
+- **`streamable-http`**: HTTP-based communication on port 8000, useful for web applications or debugging
+
+#### Transport Configuration
+
+**For stdio transport:**
+```bash
+# Docker only
+docker run -e TRANSPORT=stdio qonto-mcp-server
+```
+
+**For streamable-http transport:**
+```bash
+# Docker
+docker run -e TRANSPORT=streamable-http -p 8000:8000 qonto-mcp-server
+
+# Docker Compose (default)
+docker-compose up
+```
+
+The server will automatically use the appropriate port and communication method based on the transport selected.
 
 ## Troubleshooting
 
