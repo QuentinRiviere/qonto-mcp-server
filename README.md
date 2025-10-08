@@ -57,13 +57,14 @@ Questions or security concerns? Contact us at `security@qonto.com`.
    QONTO_API_KEY=your_api_key_here
    QONTO_ORGANIZATION_ID=your_organization_id_here
    QONTO_THIRDPARTY_HOST=https://thirdparty.qonto.com
+   MCP_PORT=8000
    ```
 4. Start the server:
    ```bash
    docker-compose up
    ```
    
-   The server will be available at `http://localhost:8000` with streamable-http transport.
+   The server will be available at `http://localhost:${MCP_PORT}` (default: 8000) with streamable-http transport.
 
 #### Using Docker directly
 
@@ -221,6 +222,7 @@ This MCP server provides the following tools for interacting with your Qonto acc
 - `QONTO_API_KEY`: Your Qonto API key (required)
 - `QONTO_ORGANIZATION_ID`: Your organization ID (required)  
 - `QONTO_THIRDPARTY_HOST`: API host URL (defaults to https://thirdparty.qonto.com)
+- `MCP_PORT`: Local port for HTTP transport (defaults to 8000)
 
 ### Transport Options
 

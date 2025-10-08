@@ -14,7 +14,7 @@ services:
       - TRANSPORT=streamable-http
     
     ports:
-      - "8000:8000"
+      - "${MCP_PORT:-8000}:8000"
     
     # Restart policy
     restart: unless-stopped
